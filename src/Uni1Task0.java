@@ -1,5 +1,3 @@
-import java.sql.SQLOutput;
-
 public class Uni1Task0 {
     public static void main(String[] args) {
         int day = 17;
@@ -78,19 +76,19 @@ public class Uni1Task0 {
         }
         System.out.println("");
         System.out.println("Логические операторы");
-        if (day==17&&month==12){
+        if (day == 17 && month == 12) {
             System.out.println("Верно");
-        }else{
+        } else {
             System.out.println("Неверно");
         }
-        if (day==17||month==12){
+        if (day == 17 || month == 12) {
             System.out.println("Верно");
-        }else{
+        } else {
             System.out.println("Неверно");
         }
-        if (day!=month){
+        if (day != month) {
             System.out.println("Верно");
-        }else{
+        } else {
             System.out.println("Неверно");
         }
     }
