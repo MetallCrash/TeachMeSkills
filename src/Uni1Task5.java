@@ -3,33 +3,33 @@ public class Uni1Task5 {
         int a = 0;
         int b = 63;
         int c = -4;
-        int pos = 0;
-        int neg = 0;
-        int zero = 0;
+        int positiveCount = 0;
+        int negativeCount = 0;
+        int zeroCount = 0;
         if (a > 0) {
-            pos++;
+            positiveCount++;
         } else if (a < 0) {
-            neg++;
+            negativeCount++;
         } else {
-            zero++;
+            zeroCount++;
         }
         if (b > 0) {
-            pos++;
+            positiveCount++;
         } else if (b < 0) {
-            neg++;
+            negativeCount++;
         } else {
-            zero++;
+            zeroCount++;
         }
         if (c > 0) {
-            pos++;
+            positiveCount++;
         } else if (c < 0) {
-            neg++;
+            negativeCount++;
         } else {
-            zero++;
+            zeroCount++;
         }
-        System.out.println("Количество положительных чисел: " + pos);
-        System.out.println("Количество отрицательых чисел: " + neg);
-        System.out.println("Количество чисел равных нулю: " + zero);
+        System.out.println("Количество положительных чисел: " + positiveCount);
+        System.out.println("Количество отрицательых чисел: " + negativeCount);
+        System.out.println("Количество чисел равных нулю: " + zeroCount);
 
 
     }
