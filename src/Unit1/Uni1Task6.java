@@ -1,3 +1,5 @@
+package Unit1;
+
 public class Uni1Task6 {
     public static void main(String[] args) {
         int a = 86;

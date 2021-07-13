@@ -1,3 +1,5 @@
+package Unit1;
+
 import java.util.Scanner;
 public class Uni1Task8 {
     public static void main (String[]args){
