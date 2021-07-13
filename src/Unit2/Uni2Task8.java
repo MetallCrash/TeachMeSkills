@@ -3,10 +3,10 @@ package Unit2;
 public class Uni2Task8 {
     public static void main(String[] args) {
         for (int a = 1; a < 5; a++) {
-            for (int b = 1; b < (5 - a); b++) {
+            for (int b = 4; b > a; b--) {
                 System.out.print(" ");
             }
-            for (int c = 1; c < (a + 1); c++) {
+            for (int c = 0; c < a; c++) {
                 System.out.print("*");
             }
             System.out.println();
