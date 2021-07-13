@@ -3,9 +3,9 @@ package Unit2;
 public class Uni2Task6 {
     public static void main(String[] args) {
         int a = 2;
-        int sum;
-        for (sum = 2; sum <= 100; sum += a) {
-            System.out.print(sum + " ");
+        int num;
+        for (num = 2; num <= 100; num += a) {
+            System.out.print(num + " ");
         }
     }
 }
