@@ -15,5 +15,6 @@ public class Uni3Task0 {
             mas[i] = r;
             System.out.print(mas[i] + " ");
         }
+        sc.close();
     }
 }
