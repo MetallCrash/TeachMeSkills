@@ -12,7 +12,7 @@ public class Uni3Task11 {
             int r = random.nextInt(10);
             arr[i] = r;
             System.out.print(arr[i] + " ");
-            if (arr[i] % 2 != 0 && arr[i] != 0) {
+            if (arr[i] % 3 == 0 && arr[i] != 0) {
                 n *= arr[i];
             }
         }
