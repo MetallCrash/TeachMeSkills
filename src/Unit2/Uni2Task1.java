@@ -5,7 +5,7 @@ public class Uni2Task1 {
         double distance = 10; // расстояние первого дня
         double distanceNext; // задаем переменную разницы
         double sumDistance = 0; // общая дистанция
-        for (int day = 1; day < 7; day++) {
+        for (int day = 1; day < 8; day++) {
             sumDistance += distance; // к общей дистанции добавляем дистанцию за текущий день
             distanceNext = distance / 10; // результат разницы последующего дня с текущим
             distance += distanceNext; // планируемая дистанция на следующий день
