@@ -24,15 +24,15 @@ public class Uni4Task3 {
             sum1 *= arr[i][i];
         }
         for (int i = 0; i < arr.length; i++) {
-            int j=arr.length-1-i;
+            int j = arr.length - 1 - i;
             sum2 *= arr[i][j];
         }
-        if (sum1>sum2){
-            System.out.println("Произведение главной диагонали больше: "+sum1+" > "+sum2);
-        }else if(sum1<sum2){
-            System.out.println("Произведение побочной диагонали больше: "+sum1+" < "+sum2);
-        }else{
-            System.out.println("Произведения диагоналей равны: "+sum1+" = "+sum2);
+        if (sum1 > sum2) {
+            System.out.println("Произведение главной диагонали больше: " + sum1 + " > " + sum2);
+        } else if (sum1 < sum2) {
+            System.out.println("Произведение побочной диагонали больше: " + sum1 + " < " + sum2);
+        } else {
+            System.out.println("Произведения диагоналей равны: " + sum1 + " = " + sum2);
         }
     }
 }
