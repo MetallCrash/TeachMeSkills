@@ -23,8 +23,7 @@ public class CargoTransport extends LandingTransport {
 
     @Override
     public void power() {
-        super.power();
-        double power = getFuelConsumption() * 0.74;
+        double power = getHorsePower() * 0.74;
         System.out.println("Мощность в кВ: " + power);
     }
 

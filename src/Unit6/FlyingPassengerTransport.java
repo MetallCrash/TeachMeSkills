@@ -27,6 +27,12 @@ public class FlyingPassengerTransport extends FlyingTransport{
         System.out.println("Наличие бизнес класса: "+isBusinessClass());
     }
 
+    @Override
+    public void power() {
+        double power = getHorsePower() * 0.74;
+        System.out.println("Мощность в кВ: " + power);
+    }
+
     public void passengerCapacity(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите количество пассажиров");

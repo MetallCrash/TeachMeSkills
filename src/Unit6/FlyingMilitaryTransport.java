@@ -25,6 +25,12 @@ public class FlyingMilitaryTransport extends FlyingTransport {
         System.out.println("Наличие системы катапультирования: " + isEjectSystem());
     }
 
+    @Override
+    public void power() {
+        double power = getHorsePower() * 0.74;
+        System.out.println("Мощность в кВ: " + power);
+    }
+
     public void launch() {
         if (getNumberOfMissles() > 0) {
             System.out.println("Ракета пошла");

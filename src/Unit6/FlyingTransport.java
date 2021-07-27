@@ -29,6 +29,5 @@ public abstract class FlyingTransport extends Transport {
     }
 
     @Override
-    public void power() {
-    }
+    public abstract void power();
 }

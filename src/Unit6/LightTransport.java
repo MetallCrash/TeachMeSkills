@@ -26,16 +26,16 @@ public class LightTransport extends LandingTransport {
         System.out.println("Тип кузова: " + getBodyType());
         System.out.println("Количество пассажиров: " + getNumberOfPassengers());
         power();
+        fuel();
     }
 
     @Override
     public void power() {
-        super.power();
-        double power = getFuelConsumption() * 0.74;
+        double power = getHorsePower()* 0.74;
         System.out.println("Мощность в кВ: " + power);
     }
 
-    public void fuel() {
+    private void fuel() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите время");
         double time = scanner.nextDouble();
@@ -47,4 +47,5 @@ public class LightTransport extends LandingTransport {
         double fuel = (distance / 100) * getFuelConsumption();
         System.out.println("За " + time + "ч, " + getModel() + " двигаясь со скоростью " + getMaxSpeed() + "км/ч проедет " + distance + "км и израсходует " + fuel + "л топлива.");
     }
+
 }
