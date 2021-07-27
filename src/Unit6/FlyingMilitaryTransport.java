@@ -1,47 +1,42 @@
 package Unit6;
 
 public class FlyingMilitaryTransport extends FlyingTransport {
-    private int numberOfMissles;
-    private final boolean ejectSystem;
+    private int numberOfMissiles;
+    private final boolean hasEjectSystem;
 
-    public FlyingMilitaryTransport(String model, int horsePower, int maxSpeed, int weight, int wingSpan, int runwayLength, int numberOfMissles, boolean ejectSystem) {
-        super(model, horsePower, maxSpeed, weight, wingSpan, runwayLength);
-        this.numberOfMissles = numberOfMissles;
-        this.ejectSystem = ejectSystem;
+    public FlyingMilitaryTransport(TransportModel transportModel, int horsePower, int maxSpeed, int weight, int wingSpan, int runwayLength, int numberOfMissiles, boolean hasEjectSystem) {
+        super(transportModel, horsePower, maxSpeed, weight, wingSpan, runwayLength);
+        this.numberOfMissiles = numberOfMissiles;
+        this.hasEjectSystem = hasEjectSystem;
     }
 
-    public int getNumberOfMissles() {
-        return numberOfMissles;
+    public int getNumberOfMissiles() {
+        return numberOfMissiles;
     }
 
-    public boolean isEjectSystem() {
-        return ejectSystem;
+    public boolean hasEjectSystem() {
+        return hasEjectSystem;
     }
 
     @Override
     public void info() {
         super.info();
-        System.out.println("Количство носимых ракет: " + getNumberOfMissles());
-        System.out.println("Наличие системы катапультирования: " + isEjectSystem());
-    }
-
-    @Override
-    public void power() {
-        double power = getHorsePower() * 0.74;
-        System.out.println("Мощность в кВ: " + power);
+        System.out.println("Количство носимых ракет: " + numberOfMissiles);
+        System.out.println("Наличие системы катапультирования: " + hasEjectSystem);
+        System.out.println("Мощность в киловатах: " + power());
     }
 
     public void launch() {
-        if (getNumberOfMissles() > 0) {
+        if (numberOfMissiles > 0) {
             System.out.println("Ракета пошла");
-            numberOfMissles--;
+            numberOfMissiles--;
         } else {
             System.out.println("Снаряды закончились, вернитесь на базу для пополнения");
         }
     }
 
     public void eject() {
-        if (isEjectSystem()) {
+        if (hasEjectSystem) {
             System.out.println("Катапультирование прошло успешно");
         } else {
             System.out.println("У вас нет такой системы");

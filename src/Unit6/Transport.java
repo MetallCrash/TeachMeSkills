@@ -4,10 +4,10 @@ public abstract class Transport {
     private final int horsePower;
     private final int maxSpeed;
     private final int weight;
-    private final String model;
+    private final TransportModel transportModel;
 
-    public Transport(String model, int horsePower, int maxSpeed, int weight) {
-        this.model = model;
+    public Transport(TransportModel transportModel, int horsePower, int maxSpeed, int weight) {
+        this.transportModel = transportModel;
         this.horsePower = horsePower;
         this.maxSpeed = maxSpeed;
         this.weight = weight;
@@ -25,11 +25,13 @@ public abstract class Transport {
         return weight;
     }
 
-    public String getModel() {
-        return model;
+    public TransportModel getModel() {
+        return transportModel;
     }
 
     public abstract void info();
 
-    public abstract void power();
+    public double power() {
+        return horsePower * 0.74;
+    }
 }

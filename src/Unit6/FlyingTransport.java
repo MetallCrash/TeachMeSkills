@@ -4,8 +4,8 @@ public abstract class FlyingTransport extends Transport {
     private final int wingSpan;
     private final int runwayLength;
 
-    public FlyingTransport(String model, int horsePower, int maxSpeed, int weight, int wingSpan, int runwayLength) {
-        super(model, horsePower, maxSpeed, weight);
+    public FlyingTransport(TransportModel transportModel, int horsePower, int maxSpeed, int weight, int wingSpan, int runwayLength) {
+        super(transportModel, horsePower, maxSpeed, weight);
         this.wingSpan = wingSpan;
         this.runwayLength = runwayLength;
     }
@@ -27,7 +27,4 @@ public abstract class FlyingTransport extends Transport {
         System.out.println("Размах крыльев: " + getWingSpan());
         System.out.println("Минимальная длина взлетно-посадочной полосы для взлета: " + getRunwayLength());
     }
-
-    @Override
-    public abstract void power();
 }

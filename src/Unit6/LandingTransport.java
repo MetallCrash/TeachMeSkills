@@ -4,8 +4,8 @@ public abstract class LandingTransport extends Transport {
     private final int numberOfWheels;
     private final int fuelConsumption;
 
-    public LandingTransport(String model, int horsePower, int maxSpeed, int weight, int numberOfWheels, int fuelConsumption) {
-        super(model, horsePower, maxSpeed, weight);
+    public LandingTransport(TransportModel transportModel, int horsePower, int maxSpeed, int weight, int numberOfWheels, int fuelConsumption) {
+        super(transportModel, horsePower, maxSpeed, weight);
         this.numberOfWheels = numberOfWheels;
         this.fuelConsumption = fuelConsumption;
     }
@@ -27,7 +27,4 @@ public abstract class LandingTransport extends Transport {
         System.out.println("Количество колес: " + getNumberOfWheels());
         System.out.println("Расход топлива: " + getFuelConsumption());
     }
-
-    @Override
-    public abstract void power();
 }

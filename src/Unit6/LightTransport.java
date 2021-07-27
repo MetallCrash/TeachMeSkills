@@ -6,8 +6,8 @@ public class LightTransport extends LandingTransport {
     private final String bodyType;
     private final int numberOfPassengers;
 
-    public LightTransport(String model, int horsePower, int maxSpeed, int weight, int numberOfWheels, int fuelConsumption, String bodyType, int numberOfPassengers) {
-        super(model, horsePower, maxSpeed, weight, numberOfWheels, fuelConsumption);
+    public LightTransport(TransportModel transportModel, int horsePower, int maxSpeed, int weight, int numberOfWheels, int fuelConsumption, String bodyType, int numberOfPassengers) {
+        super(transportModel, horsePower, maxSpeed, weight, numberOfWheels, fuelConsumption);
         this.bodyType = bodyType;
         this.numberOfPassengers = numberOfPassengers;
     }
@@ -23,16 +23,10 @@ public class LightTransport extends LandingTransport {
     @Override
     public void info() {
         super.info();
-        System.out.println("Тип кузова: " + getBodyType());
-        System.out.println("Количество пассажиров: " + getNumberOfPassengers());
-        power();
+        System.out.println("Тип кузова: " + bodyType);
+        System.out.println("Количество пассажиров: " + numberOfPassengers);
+        System.out.println("Мощность в киловатах: " + power());
         fuel();
-    }
-
-    @Override
-    public void power() {
-        double power = getHorsePower()* 0.74;
-        System.out.println("Мощность в кВ: " + power);
     }
 
     private void fuel() {
