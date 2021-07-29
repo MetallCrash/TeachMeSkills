@@ -12,14 +12,6 @@ public class LightTransport extends LandingTransport {
         this.numberOfPassengers = numberOfPassengers;
     }
 
-    public String getBodyType() {
-        return bodyType;
-    }
-
-    public int getNumberOfPassengers() {
-        return numberOfPassengers;
-    }
-
     @Override
     public void info() {
         super.info();

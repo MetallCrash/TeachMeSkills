@@ -13,23 +13,20 @@ public abstract class Transport {
         this.weight = weight;
     }
 
-    public int getHorsePower() {
-        return horsePower;
-    }
-
     public int getMaxSpeed() {
         return maxSpeed;
-    }
-
-    public int getWeight() {
-        return weight;
     }
 
     public TransportModel getModel() {
         return transportModel;
     }
 
-    public abstract void info();
+    public void info() {
+        System.out.println("Мощность в лошадиных силах: " + horsePower);
+        System.out.println("Максимальная скорость: " + maxSpeed);
+        System.out.println("Вес: " + weight);
+        System.out.println("Модель: " + transportModel);
+    }
 
     public double power() {
         return horsePower * 0.74;

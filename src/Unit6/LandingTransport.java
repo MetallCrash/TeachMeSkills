@@ -14,17 +14,11 @@ public abstract class LandingTransport extends Transport {
         return fuelConsumption;
     }
 
-    public int getNumberOfWheels() {
-        return numberOfWheels;
-    }
 
     @Override
     public void info() {
-        System.out.println("Мощность в лошадиных силах: " + getHorsePower());
-        System.out.println("Максимальная скорость: " + getMaxSpeed());
-        System.out.println("Вес: " + getWeight());
-        System.out.println("Модель: " + getModel());
-        System.out.println("Количество колес: " + getNumberOfWheels());
-        System.out.println("Расход топлива: " + getFuelConsumption());
+        super.info();
+        System.out.println("Количество колес: " + numberOfWheels);
+        System.out.println("Расход топлива: " + fuelConsumption);
     }
 }

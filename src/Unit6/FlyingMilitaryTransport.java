@@ -10,14 +10,6 @@ public class FlyingMilitaryTransport extends FlyingTransport {
         this.hasEjectSystem = hasEjectSystem;
     }
 
-    public int getNumberOfMissiles() {
-        return numberOfMissiles;
-    }
-
-    public boolean hasEjectSystem() {
-        return hasEjectSystem;
-    }
-
     @Override
     public void info() {
         super.info();

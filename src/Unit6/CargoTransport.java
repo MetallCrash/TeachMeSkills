@@ -10,10 +10,6 @@ public class CargoTransport extends LandingTransport {
         this.liftingPower = liftingPower;
     }
 
-    public int getLiftingPower() {
-        return liftingPower;
-    }
-
     @Override
     public void info() {
         super.info();

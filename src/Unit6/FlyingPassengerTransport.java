@@ -12,14 +12,6 @@ public class FlyingPassengerTransport extends FlyingTransport {
         this.hasBusinessClass = hasBusinessClass;
     }
 
-    public int getNumberOfPassengers() {
-        return numberOfPassengers;
-    }
-
-    public boolean hasBusinessClass() {
-        return hasBusinessClass;
-    }
-
     @Override
     public void info() {
         super.info();
