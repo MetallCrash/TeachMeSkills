@@ -24,21 +24,21 @@ public class Run {
         У всех роботов вызовите метод action.
         Среди 3-х роботов найдите самого дорогого.
         */
-        IHead sonyHead=new SonyHead(123);
-        IHead toshibaHead=new ToshibaHead(132);
-        IHead samsungHead=new SamsungHead(312);
+        IHead sonyHead = new SonyHead(2);
+        IHead toshibaHead = new ToshibaHead(2);
+        IHead samsungHead = new SamsungHead(2);
 
-        IHand sonyHand=new SonyHand(654);
-        IHand toshibaHand=new ToshibaHand(456);
-        IHand samsungHand=new SamsungHand(465);
+        IHand sonyHand = new SonyHand(2);
+        IHand toshibaHand = new ToshibaHand(2);
+        IHand samsungHand = new SamsungHand(2);
 
-        ILeg sonyLeg=new SonyLeg(879);
-        ILeg toshibaLeg=new ToshibaLeg(987);
-        ILeg samsungLeg=new SamsungLeg(789);
+        ILeg sonyLeg = new SonyLeg(2);
+        ILeg toshibaLeg = new ToshibaLeg(2);
+        ILeg samsungLeg = new SamsungLeg(1);
 
-        Robot robot1=new Robot("Оптимус прайм",sonyHead,toshibaHand,samsungLeg);
-        Robot robot2=new Robot ("Мегазорд",toshibaHead,samsungHand,sonyLeg);
-        Robot robot3=new Robot ("АТ-АТ",samsungHead,sonyHand,toshibaLeg);
+        Robot robot1 = new Robot("Оптимус прайм", sonyHead, toshibaHand, samsungLeg);
+        Robot robot2 = new Robot("Мегазорд", toshibaHead, samsungHand, sonyLeg);
+        Robot robot3 = new Robot("АТ-АТ", samsungHead, sonyHand, toshibaLeg);
 
         robot1.action();
         System.out.println();
@@ -46,12 +46,26 @@ public class Run {
         System.out.println();
         robot3.action();
         System.out.println();
-        if (robot1.getPrice()>robot2.getPrice()&&robot1.getPrice()> robot3.getPrice()){
-            System.out.println("Самый дорогой робот "+robot1.getName()+" с ценой в: "+robot1.getPrice());
-        }else if (robot2.getPrice()>robot1.getPrice()&&robot2.getPrice()> robot3.getPrice()){
-            System.out.println("Самый дорогой робот "+robot2.getName()+" с ценой в: "+robot2.getPrice());
-        }else{
-            System.out.println("Самый дорогой робот "+robot3.getName()+" с ценой в: "+robot3.getPrice());
+//        if (robot1.getPrice() > robot2.getPrice() && robot1.getPrice() > robot3.getPrice()) {
+//            System.out.println("Самый дорогой робот " + robot1.getName() + " с ценой в: " + robot1.getPrice());
+//        } else if (robot2.getPrice() > robot1.getPrice() && robot2.getPrice() > robot3.getPrice()) {
+//            System.out.println("Самый дорогой робот " + robot2.getName() + " с ценой в: " + robot2.getPrice());
+//        } else {
+//            System.out.println("Самый дорогой робот " + robot3.getName() + " с ценой в: " + robot3.getPrice());
+//        }
+        Robot[] robots = new Robot[]{robot1, robot2, robot3};
+        Robot expensiveRobot = robots[0];
+        for (int i = 0; i < robots.length; i++) {
+            for (int j = 0; j < robots.length; j++) {
+                if (robots[i].getPrice() > robots[j].getPrice()) {
+                    expensiveRobot = robots[i];
+                }
+            }
+        }
+        for (int i = 0; i < robots.length; i++) {
+            if (expensiveRobot.getPrice() == robots[i].getPrice()) {
+                System.out.println("Самый дорогой робот " + robots[i].getName() + " c ценой в: " + robots[i].getPrice());
+            }
         }
     }
 }
