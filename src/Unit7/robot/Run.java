@@ -54,16 +54,14 @@ public class Run {
 //            System.out.println("Самый дорогой робот " + robot3.getName() + " с ценой в: " + robot3.getPrice());
 //        }
         Robot[] robots = new Robot[]{robot1, robot2, robot3};
-        Robot expensiveRobot = robots[0];
+        int maxPrice = 0;
         for (int i = 0; i < robots.length; i++) {
-            for (int j = 0; j < robots.length; j++) {
-                if (robots[i].getPrice() > robots[j].getPrice()) {
-                    expensiveRobot = robots[i];
-                }
+            if (robots[i].getPrice() > maxPrice) {
+                maxPrice = robots[i].getPrice();
             }
         }
         for (int i = 0; i < robots.length; i++) {
-            if (expensiveRobot.getPrice() == robots[i].getPrice()) {
+            if (maxPrice == robots[i].getPrice()) {
                 System.out.println("Самый дорогой робот " + robots[i].getName() + " c ценой в: " + robots[i].getPrice());
             }
         }
