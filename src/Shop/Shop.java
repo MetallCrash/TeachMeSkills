@@ -1,5 +1,6 @@
 package Shop;
 
+import java.time.LocalTime;
 import java.util.*;
 
 public class Shop {
@@ -106,26 +107,11 @@ public class Shop {
                 action = readInt();
             }
             if (action == 1) {
-                productList.sort(new Comparator<Product>() {
-                    @Override
-                    public int compare(Product o1, Product o2) {
-                        return o1.getPrice() - o2.getPrice();
-                    }
-                });
+                productList.sort((Comparator<Product>) (o1, o2) -> o1.getPrice() - o2.getPrice());
             } else if (action == 2) {
-                productList.sort(new Comparator<Product>() {
-                    @Override
-                    public int compare(Product o1, Product o2) {
-                        return o2.getPrice() - o1.getPrice();
-                    }
-                });
+                productList.sort((Comparator<Product>) (o1, o2) -> o2.getPrice() - o1.getPrice());
             } else if (action == 3) {
-                productList.sort(new Comparator<Product>() {
-                    @Override
-                    public int compare(Product o1, Product o2) {
-                        return o1.getSubsequence() - o2.getSubsequence();
-                    }
-                });
+                productList.sort((Comparator<Product>) (o1, o2) -> o1.getSubsequence().compareTo(o2.getSubsequence()));
             } else if (action == 4) {
                 isDisplayAndSortPage = false;
             }

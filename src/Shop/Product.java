@@ -1,19 +1,18 @@
 package Shop;
 
+import java.time.LocalTime;
+
 public class Product {
     private int id;
     private String name;
     private int price;
-    private final int subsequence;
+    private final LocalTime subsequence = LocalTime.now();
 
-    private static int productsCount = 0;
 
     public Product(int id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
-        subsequence = productsCount;
-        productsCount++;
     }
 
     public int getId() {
@@ -40,7 +39,7 @@ public class Product {
         this.price = price;
     }
 
-    public int getSubsequence() {
+    public LocalTime getSubsequence() {
         return subsequence;
     }
 
