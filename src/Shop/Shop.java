@@ -7,10 +7,7 @@ public class Shop {
     private final List<Product> productList = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
 
-    public Shop() {
-    }
-
-    public void addProduct(Product product) {
+    private void addProduct(Product product) {
         if (!productList.contains(product)) {
             productList.add(product);
         }
