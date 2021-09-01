@@ -1,6 +1,5 @@
 package Shop;
 
-import java.time.LocalTime;
 import java.util.*;
 
 public class Shop {
@@ -35,32 +34,21 @@ public class Shop {
     }
 
     private boolean removeProduct(int id) {
-        for (Product product : productList) {
-            if (id == product.getId()) {
-                productList.remove(product);
-                return true;
-            }
-        }
-        return false;
+        return productList.removeIf(product -> product.getId() == id);
     }
 
     private void editProduct() {
         System.out.println("Введите ID товара для редактирования\n");
         int id = readInt();
-        Product foundProduct = null;
-        for (Product product : productList) {
-            if (product.getId() == id) {
-                foundProduct = product;
-            }
-        }
-        if (foundProduct != null) {
-            foundProduct.setName(enterName());
-            foundProduct.setPrice(enterPrice());
-            System.out.println("Товар отредактирован\n");
-            System.out.println(foundProduct);
-        } else {
-            System.out.println("Товара с таким ID не найдено\n");
-        }
+        Optional<Product> productId = productList.stream()
+                .filter(product -> product.getId()==id)
+                .findAny();
+        productId.ifPresentOrElse(
+                product-> product.setName(enterName()),
+                ()-> System.out.println("Товара с таким ID не найдено\n"));
+        productId.ifPresent(
+                product ->product.setPrice(enterPrice()));
+        productId.ifPresent(product -> System.out.println(product+"\n"));
     }
 
     private int readInt() {
@@ -95,11 +83,11 @@ public class Shop {
         int action;
         boolean isDisplayAndSortPage = true;
         while (isDisplayAndSortPage) {
-            String description ="Выберите способ сортировки: \n  1) По цене(возрастание):\n  2) По цене(убывание):\n" +
-                    "  3) По добавлению: \n  4) Назад\n";
+            String description ="Выберите способ вывода: \n  1) По цене(возрастание):\n  2) По цене(убывание):\n" +
+                    "  3) По добавлению:\n  4) В диапазоне цены:\n  5) Назад\n";
             System.out.println(description);
             action = readInt();
-            while (action < 0 || action > 4) {
+            while (action < 0 || action > 5) {
                 System.out.println(description);
                 action = readInt();
             }
@@ -109,10 +97,19 @@ public class Shop {
                 productList.sort((Comparator<Product>) (o1, o2) -> o2.getPrice() - o1.getPrice());
             } else if (action == 3) {
                 productList.sort((Comparator<Product>) (o1, o2) -> o1.getSubsequence().compareTo(o2.getSubsequence()));
-            } else if (action == 4) {
+            } else if(action == 4){
+                System.out.println("Введите нижнюю границу цены");
+                int lowerPriceLimit=readInt();
+                System.out.println("Введите верхнюю границу цены");
+                int upperPriceLimit=readInt();
+                productList.stream()
+                        .filter(product -> product.getPrice()<=upperPriceLimit)
+                        .filter(product -> product.getPrice()>=lowerPriceLimit)
+                        .forEach(product -> System.out.println(product+"\n"));
+            } else if (action == 5) {
                 isDisplayAndSortPage = false;
             }
-            if (action != 4) {
+            if (action != 4 && action!=5) {
                 displayProductList();
             }
         }
