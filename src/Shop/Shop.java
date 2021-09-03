@@ -1,10 +1,12 @@
 package Shop;
 
+import java.io.*;
 import java.util.*;
 
 public class Shop {
-    private final List<Product> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
+    private final String path = "./src/Shop/ProductList.dat";
 
     private void addProduct(Product product) {
         if (!productList.contains(product)) {
@@ -13,6 +15,7 @@ public class Shop {
     }
 
     public void start() {
+        readProductsFromFile();
         boolean isStart = true;
         while (isStart) {
             int action = getMainPage();
@@ -31,6 +34,10 @@ public class Shop {
                 isStart = false;
             }
         }
+        writeProductToFile(productList);
+//        for (Product product : productList) {
+//            writeProductToFile(product);
+//        }
     }
 
     private boolean removeProduct(int id) {
@@ -41,14 +48,14 @@ public class Shop {
         System.out.println("Введите ID товара для редактирования\n");
         int id = readInt();
         Optional<Product> productId = productList.stream()
-                .filter(product -> product.getId()==id)
+                .filter(product -> product.getId() == id)
                 .findAny();
         productId.ifPresentOrElse(
-                product-> product.setName(enterName()),
-                ()-> System.out.println("Товара с таким ID не найдено\n"));
+                product -> product.setName(enterName()),
+                () -> System.out.println("Товара с таким ID не найдено\n"));
         productId.ifPresent(
-                product ->product.setPrice(enterPrice()));
-        productId.ifPresent(product -> System.out.println(product+"\n"));
+                product -> product.setPrice(enterPrice()));
+        productId.ifPresent(product -> System.out.println(product + "\n"));
     }
 
     private int readInt() {
@@ -57,6 +64,10 @@ public class Shop {
         do {
             try {
                 a = scanner.nextInt();
+                while (a<0){
+                    System.out.println("Введите целую положительную цифру");
+                    a = scanner.nextInt();
+                }
                 isInt = true;
             } catch (Exception e) {
                 System.out.println("Введите целую цифру\n");
@@ -68,7 +79,7 @@ public class Shop {
 
 
     private int getMainPage() {
-        String description ="Выберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
+        String description = "Выберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
                 "3) Удаление товара\n  4) Редактирование товара\n  5) Выход\n";
         System.out.println(description);
         int action = readInt();
@@ -83,7 +94,7 @@ public class Shop {
         int action;
         boolean isDisplayAndSortPage = true;
         while (isDisplayAndSortPage) {
-            String description ="Выберите способ вывода: \n  1) По цене(возрастание):\n  2) По цене(убывание):\n" +
+            String description = "Выберите способ вывода: \n  1) По цене(возрастание):\n  2) По цене(убывание):\n" +
                     "  3) По добавлению:\n  4) В диапазоне цены:\n  5) Назад\n";
             System.out.println(description);
             action = readInt();
@@ -96,20 +107,20 @@ public class Shop {
             } else if (action == 2) {
                 productList.sort((Comparator<Product>) (o1, o2) -> o2.getPrice() - o1.getPrice());
             } else if (action == 3) {
-                productList.sort((Comparator<Product>) (o1, o2) -> o1.getSubsequence().compareTo(o2.getSubsequence()));
-            } else if(action == 4){
                 System.out.println("Введите нижнюю границу цены");
-                int lowerPriceLimit=readInt();
+                int lowerPriceLimit = readInt();
                 System.out.println("Введите верхнюю границу цены");
-                int upperPriceLimit=readInt();
+                int upperPriceLimit = readInt();
                 productList.stream()
-                        .filter(product -> product.getPrice()<=upperPriceLimit)
-                        .filter(product -> product.getPrice()>=lowerPriceLimit)
-                        .forEach(product -> System.out.println(product+"\n"));
+                        .filter(product -> product.getPrice() <= upperPriceLimit)
+                        .filter(product -> product.getPrice() >= lowerPriceLimit)
+                        .forEach(product -> System.out.println(product + "\n"));
+            } else if (action == 4) {
+                productList.sort((Comparator<Product>) (o1, o2) -> o1.getSubsequence().compareTo(o2.getSubsequence()));
             } else if (action == 5) {
                 isDisplayAndSortPage = false;
             }
-            if (action != 4 && action!=5) {
+            if (action != 4 && action != 5) {
                 displayProductList();
             }
         }
@@ -129,23 +140,23 @@ public class Shop {
         Product product = new Product(enterId(), enterName(), enterPrice());
         System.out.println();
         System.out.println("Проверьте данные и добавте товар в перечень. В случае ошибки отредактируйте\n");
-        System.out.println(product+"\n");
+        System.out.println(product + "\n");
         System.out.println(description);
         int action = readInt();
         while (isGetAddProductPage) {
             if (action == 1) {
                 product.setId(enterId());
-                System.out.println(product+"\n");
+                System.out.println(product + "\n");
                 System.out.println(description);
                 action = readInt();
             } else if (action == 2) {
                 product.setName(enterName());
-                System.out.println(product+"\n");
+                System.out.println(product + "\n");
                 System.out.println(description);
                 action = readInt();
             } else if (action == 3) {
                 product.setPrice(enterPrice());
-                System.out.println(product+"\n");
+                System.out.println(product + "\n");
                 System.out.println(description);
                 action = readInt();
             } else if (action == 4) {
@@ -182,7 +193,6 @@ public class Shop {
                 System.out.println("Товар с таким ID уже существует либо введен неккоректно, введите другой ID\n");
                 id = readInt();
             }
-
         }
         return id;
     }
@@ -201,6 +211,22 @@ public class Shop {
             price = readInt();
         }
         return price;
+    }
+
+    private void readProductsFromFile() {
+        try (ObjectInputStream readProductsFromFile = new ObjectInputStream(new FileInputStream(path))) {
+            productList = (List<Product>) readProductsFromFile.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void writeProductToFile(List<Product> productList) {
+        try (ObjectOutputStream writeProductToFile = new ObjectOutputStream(new FileOutputStream(path))) {
+            writeProductToFile.writeObject(productList);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
