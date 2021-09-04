@@ -35,9 +35,6 @@ public class Shop {
             }
         }
         writeProductToFile(productList);
-//        for (Product product : productList) {
-//            writeProductToFile(product);
-//        }
     }
 
     private boolean removeProduct(int id) {
@@ -51,10 +48,11 @@ public class Shop {
                 .filter(product -> product.getId() == id)
                 .findAny();
         productId.ifPresentOrElse(
-                product -> product.setName(enterName()),
+                product -> {
+                    product.setName(enterName());
+                    product.setPrice(enterPrice());
+                },
                 () -> System.out.println("Товара с таким ID не найдено\n"));
-        productId.ifPresent(
-                product -> product.setPrice(enterPrice()));
         productId.ifPresent(product -> System.out.println(product + "\n"));
     }
 
@@ -64,7 +62,7 @@ public class Shop {
         do {
             try {
                 a = scanner.nextInt();
-                while (a<0){
+                while (a < 0) {
                     System.out.println("Введите целую положительную цифру");
                     a = scanner.nextInt();
                 }
@@ -95,7 +93,7 @@ public class Shop {
         boolean isDisplayAndSortPage = true;
         while (isDisplayAndSortPage) {
             String description = "Выберите способ вывода: \n  1) По цене(возрастание):\n  2) По цене(убывание):\n" +
-                    "  3) По добавлению:\n  4) В диапазоне цены:\n  5) Назад\n";
+                    "  3) В диапазоне цены:\n  4) По добавлению:\n  5) Назад\n";
             System.out.println(description);
             action = readInt();
             while (action < 0 || action > 5) {
@@ -114,22 +112,21 @@ public class Shop {
                 productList.stream()
                         .filter(product -> product.getPrice() <= upperPriceLimit)
                         .filter(product -> product.getPrice() >= lowerPriceLimit)
-                        .forEach(product -> System.out.println(product + "\n"));
+                        .forEach(System.out::println);
+                System.out.println();
             } else if (action == 4) {
                 productList.sort((Comparator<Product>) (o1, o2) -> o1.getSubsequence().compareTo(o2.getSubsequence()));
             } else if (action == 5) {
                 isDisplayAndSortPage = false;
             }
-            if (action != 4 && action != 5) {
+            if (action != 3 && action != 5) {
                 displayProductList();
             }
         }
     }
 
     private void displayProductList() {
-        for (Product product : productList) {
-            System.out.println(product.toString());
-        }
+        productList.forEach(product -> System.out.println(product.toString()));
         System.out.println();
     }
 
@@ -172,6 +169,7 @@ public class Shop {
     }
 
     private void getRemoveProductPage() {
+        displayProductList();
         System.out.println("Введите ID товара для удаления\n");
         int id = readInt();
         if (removeProduct(id)) {
@@ -188,10 +186,16 @@ public class Shop {
             System.out.println("ID товара должен быть положительным числом\n");
             id = readInt();
         }
-        for (Product product : productList) {
-            while (product.getId() == id || id < 0) {
-                System.out.println("Товар с таким ID уже существует либо введен неккоректно, введите другой ID\n");
-                id = readInt();
+        int tempId = id;
+        boolean ifSameId = productList.stream()
+                .anyMatch(product -> product.getId() == tempId);
+        while (ifSameId) {
+            System.out.println("Товар с таким ID уже существует либо введен неккоректно, введите другой ID\n");
+            id = readInt();
+            int tempId2 = id;
+            boolean ifSameId2 = productList.stream().anyMatch(product -> product.getId() == tempId2);
+            if (!ifSameId2) {
+                ifSameId = false;
             }
         }
         return id;
