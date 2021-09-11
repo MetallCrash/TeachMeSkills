@@ -2,6 +2,8 @@ package Shop;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Shop {
     private List<Product> productList = new ArrayList<>();
@@ -193,7 +195,8 @@ public class Shop {
             System.out.println("Товар с таким ID уже существует либо введен неккоректно, введите другой ID\n");
             id = readInt();
             int tempId2 = id;
-            boolean ifSameId2 = productList.stream().anyMatch(product -> product.getId() == tempId2);
+            boolean ifSameId2 = productList.stream()
+                    .anyMatch(product -> product.getId() == tempId2);
             if (!ifSameId2) {
                 ifSameId = false;
             }
@@ -202,9 +205,17 @@ public class Shop {
     }
 
     private String enterName() {
+        Pattern regExPattern = Pattern.compile("^(?U)[A-ZА-Я][a-zа-я]+(\\s?[\\w])+((\\s?[\\d]+)+)?");
         System.out.println("Введите наимнование товара\n");
-        scanner.nextLine();
-        return scanner.nextLine();
+        String productName = scanner.nextLine();
+        productName = scanner.nextLine();
+        Matcher matcher = regExPattern.matcher(productName);
+        while (!matcher.find()) {
+            System.out.println("Наименование товара введено не корректно");
+            productName = scanner.nextLine();
+            matcher = regExPattern.matcher(productName);
+        }
+        return productName;
     }
 
     private int enterPrice() {
