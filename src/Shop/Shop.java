@@ -10,12 +10,6 @@ public class Shop {
     private final Scanner scanner = new Scanner(System.in);
     private final String path = "./src/Shop/ProductList.dat";
 
-    private void addProduct(Product product) {
-        if (!productList.contains(product)) {
-            productList.add(product);
-        }
-    }
-
     public void start() {
         readProductsFromFile();
         boolean isStart = true;
@@ -37,6 +31,12 @@ public class Shop {
             }
         }
         writeProductToFile(productList);
+    }
+
+    private void addProduct(Product product) {
+        if (!productList.contains(product)) {
+            productList.add(product);
+        }
     }
 
     private boolean removeProduct(int id) {
@@ -76,7 +76,6 @@ public class Shop {
         } while (!isInt);
         return a;
     }
-
 
     private int getMainPage() {
         String description = "Выберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
