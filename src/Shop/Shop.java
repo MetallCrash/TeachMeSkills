@@ -204,7 +204,7 @@ public class Shop {
     }
 
     private String enterName() {
-        Pattern regExPattern = Pattern.compile("^(?U)[A-ZА-Я][a-zа-я]+(\\s?[\\w])+((\\s?[\\d]+)+)?");
+        Pattern regExPattern = Pattern.compile("^(?U)[A-ZА-Я](\\w+)?(\\s?[\\w])+((\\s?[\\d]+)+)?");
         System.out.println("Введите наимнование товара\n");
         String productName = scanner.nextLine();
         productName = scanner.nextLine();
