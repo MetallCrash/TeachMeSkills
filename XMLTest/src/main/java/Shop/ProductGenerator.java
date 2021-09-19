@@ -1,7 +1,5 @@
 package Shop;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -19,8 +17,7 @@ public class ProductGenerator {
         maxId++;
         Random random = new Random();
         int price = random.nextInt(30) + 1;
-//        String name = productAdjectives.get(random.nextInt(productAdjectives.size())) + " " + productNouns.get(random.nextInt(productNouns.size()));
-        String name = productNouns.get(random.nextInt(productNouns.size()));
+        String name = productAdjectives.get(random.nextInt(productAdjectives.size())) + " " + productNouns.get(random.nextInt(productNouns.size()));
         return new Product(maxId, name, price);
     }
 }

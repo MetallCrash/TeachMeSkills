@@ -11,7 +11,6 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Я кансумер и я кансумирую");
         for (int i = 0; i < 10; i++) {
             try {
                 shop.buyProduct();

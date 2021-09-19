@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class ProductManager {
@@ -15,11 +16,20 @@ public class ProductManager {
             .registerModule(new JavaTimeModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-    public List<Product> getProducts() throws IOException {
-        return mapper.readValue(new File(path), new TypeReference<List<Product>>() {
-        });
+    public List<Product> getProducts() {
+        try {
+            return mapper.readValue(new File(path), new TypeReference<List<Product>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
-    public void updateProducts(List<Product> productList) throws IOException {
-        mapper.writeValue(new File(path), productList);
+    public void updateProducts(List<Product> productList) {
+        try {
+            mapper.writeValue(new File(path), productList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

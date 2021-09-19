@@ -11,7 +11,6 @@ public class Producer implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Я празивадитель и я праизважу");
         for (int i = 0; i < 10; i++) {
             try {
                 shop.produceProduct();

@@ -1,1 +1,38 @@
-[{"id":0,"name":"Cheese","price":3,"dateCreated":"2021-09-19T02:50:31.0696379"},{"id":1,"name":"Bread","price":1,"dateCreated":"2021-09-19T02:50:38.6230783"},{"id":2,"name":"Coffee","price":13,"dateCreated":"2021-09-19T02:50:48.2343912"},{"id":3,"name":"Meat","price":15,"dateCreated":"2021-09-19T02:51:08.395363"},{"id":4,"name":"Cake","price":10,"dateCreated":"2021-09-19T02:51:24.6211633"},{"id":5,"name":"Wine","price":11,"dateCreated":"2021-09-19T02:51:33.6083837"}]
+[
+  {
+    "id": 220,
+    "name": "Delicious Meat",
+    "price": 16,
+    "dateCreated": "2021-09-19T23:55:19.1694714"
+  },
+  {
+    "id": 221,
+    "name": "Bitter PopCorn",
+    "price": 14,
+    "dateCreated": "2021-09-19T23:55:19.1804425"
+  },
+  {
+    "id": 222,
+    "name": "Wonderful Chips",
+    "price": 15,
+    "dateCreated": "2021-09-19T23:55:19.1814397"
+  },
+  {
+    "id": 223,
+    "name": "Fresh Coffee",
+    "price": 25,
+    "dateCreated": "2021-09-19T23:55:19.1824372"
+  },
+  {
+    "id": 224,
+    "name": "Wonderful Wine",
+    "price": 1,
+    "dateCreated": "2021-09-19T23:55:19.1834342"
+  },
+  {
+    "id": 225,
+    "name": "Awesome Soda",
+    "price": 26,
+    "dateCreated": "2021-09-19T23:55:19.1834342"
+  }
+]
