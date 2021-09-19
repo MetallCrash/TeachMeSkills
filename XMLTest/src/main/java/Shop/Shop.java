@@ -1,6 +1,5 @@
 package Shop;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,15 +10,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Shop {
-    private List<Product> productList = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
     private final String path = "XMLTest/src/main/java/Shop/ProductList.json";
     private final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    private final ProductGenerator productGenerator;
+    private final ProductManager productManager = new ProductManager();
 
-    public void start() throws IOException {
-        readProductsFromFile();
+    public Shop() {
+        int maxId = productManager.getProducts().stream()
+                .max(Comparator.comparingInt(product -> product.getId()))
+                .map(product -> product.getId())
+                .orElse(0);
+        productGenerator = new ProductGenerator(maxId);
+    }
+
+    public void start() {
         boolean isStart = true;
         while (isStart) {
             int action = getMainPage();
@@ -33,28 +40,36 @@ public class Shop {
                 displayProductList();
                 editProduct();
             } else if (action == 5) {
+                getProduceConsumePage();      //Мейн тред высвечивает меню с кнопкаминад
+                                              //произведенными и купленными товарами
+            } else if (action == 6) {
                 System.out.println("Выход из программы");
                 scanner.close();
                 isStart = false;
             }
         }
-        writeProductToFile(productList);
     }
 
     private void addProduct(Product product) {
-        if (!productList.contains(product)) {
-            productList.add(product);
+        List<Product> products = productManager.getProducts();
+        if (!products.contains(product)) {
+            products.add(product);
+            productManager.updateProducts(products);
         }
     }
 
     private boolean removeProduct(int id) {
-        return productList.removeIf(product -> product.getId() == id);
+        List<Product> products = productManager.getProducts();
+        boolean success = products.removeIf(product -> product.getId() == id);
+        productManager.updateProducts(products);
+        return success;
     }
 
     private void editProduct() {
         System.out.println("Введите ID товара для редактирования\n");
         int id = readInt();
-        Optional<Product> productId = productList.stream()
+        List<Product> products = productManager.getProducts();
+        Optional<Product> productId = products.stream()
                 .filter(product -> product.getId() == id)
                 .findAny();
         productId.ifPresentOrElse(
@@ -64,6 +79,7 @@ public class Shop {
                 },
                 () -> System.out.println("Товара с таким ID не найдено\n"));
         productId.ifPresent(product -> System.out.println(product + "\n"));
+        productManager.updateProducts(products);
     }
 
     private int readInt() {
@@ -87,10 +103,10 @@ public class Shop {
 
     private int getMainPage() {
         String description = "Выберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
-                "3) Удаление товара\n  4) Редактирование товара\n  5) Выход\n";
+                "3) Удаление товара\n  4) Редактирование товара\n  5) Производство и покупка товаров\n  6) Выход\n";
         System.out.println(description);
         int action = readInt();
-        while (action < 0 || action > 5) {
+        while (action < 0 || action > 6) {
             System.out.println(description);
             action = readInt();
         }
@@ -109,6 +125,7 @@ public class Shop {
                 System.out.println(description);
                 action = readInt();
             }
+            List<Product> productList = productManager.getProducts();
             if (action == 1) {
                 productList.sort((Comparator<Product>) (o1, o2) -> o1.getPrice() - o2.getPrice());
             } else if (action == 2) {
@@ -129,13 +146,14 @@ public class Shop {
                 isDisplayAndSortPage = false;
             }
             if (action != 3 && action != 5) {
-                displayProductList();
+                productList.forEach(product -> System.out.println(product.toString()));
+                System.out.println();
             }
         }
     }
 
     private void displayProductList() {
-        productList.forEach(product -> System.out.println(product.toString()));
+        productManager.getProducts().forEach(product -> System.out.println(product.toString()));
         System.out.println();
     }
 
@@ -196,13 +214,13 @@ public class Shop {
             id = readInt();
         }
         int tempId = id;
-        boolean ifSameId = productList.stream()
+        boolean ifSameId = productManager.getProducts().stream()
                 .anyMatch(product -> product.getId() == tempId);
         while (ifSameId) {
             System.out.println("Товар с таким ID уже существует либо введен неккоректно, введите другой ID\n");
             id = readInt();
             int tempId2 = id;
-            boolean ifSameId2 = productList.stream()
+            boolean ifSameId2 = productManager.getProducts().stream()
                     .anyMatch(product -> product.getId() == tempId2);
             if (!ifSameId2) {
                 ifSameId = false;
@@ -235,12 +253,46 @@ public class Shop {
         return price;
     }
 
-    private void readProductsFromFile() throws IOException {
-        productList = mapper.readValue(new File(path), new TypeReference<List<Product>>() {});
+    private void getProduceConsumePage() {
+        Producer producer = new Producer(this);
+        Consumer consumer = new Consumer(this);
+        new Thread(producer, "thread-producer").start();
+        new Thread(consumer, "thread-consumer").start();
     }
 
-    private void writeProductToFile(List<Product> productList) throws IOException {
-        mapper.writeValue(new File(path), productList);
+    public synchronized void buyProduct() throws IOException {
+        while (productManager.getProducts().size() < 1) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        synchronized (productManager) {
+            List<Product> products = productManager.getProducts();
+            System.out.println("[" + Thread.currentThread().getName() + "] Покупатель купил 1 \"" + products.get(0).getName() + "\" за " + products.get(0).getPrice());
+            products.remove(0); //Рандомный продукт добавить
+            productManager.updateProducts(products);
+        }
+        notify();
+    }
+
+    public synchronized void produceProduct() throws IOException {
+        while (productManager.getProducts().size() > 10) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        synchronized (productManager) {
+            List<Product> products = productManager.getProducts();
+            Product product = productGenerator.generate();
+            System.out.println("[" + Thread.currentThread().getName() + "] Продавец произвел товар \"" + product.getName() + "\" c ценой " + product.getPrice());
+            products.add(product);
+            productManager.updateProducts(products);
+        }
+        notify();
     }
 }
 
