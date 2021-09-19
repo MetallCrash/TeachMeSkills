@@ -1,5 +1,10 @@
 package Shop;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -8,9 +13,12 @@ import java.util.regex.Pattern;
 public class Shop {
     private List<Product> productList = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
-    private final String path = "./src/Shop/ProductList.dat";
+    private final String path = "XMLTest/src/main/java/Shop/ProductList.json";
+    private final ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
 
-    public void start() {
+    public void start() throws IOException {
         readProductsFromFile();
         boolean isStart = true;
         while (isStart) {
@@ -116,7 +124,7 @@ public class Shop {
                         .forEach(System.out::println);
                 System.out.println();
             } else if (action == 4) {
-                productList.sort((Comparator<Product>) (o1, o2) -> o1.getSubsequence().compareTo(o2.getSubsequence()));
+                productList.sort((Comparator<Product>) (o1, o2) -> o1.getDateCreated().compareTo(o2.getDateCreated()));
             } else if (action == 5) {
                 isDisplayAndSortPage = false;
             }
@@ -227,20 +235,12 @@ public class Shop {
         return price;
     }
 
-    private void readProductsFromFile() {
-        try (ObjectInputStream readProductsFromFile = new ObjectInputStream(new FileInputStream(path))) {
-            productList = (List<Product>) readProductsFromFile.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+    private void readProductsFromFile() throws IOException {
+        productList = mapper.readValue(new File(path), new TypeReference<List<Product>>() {});
     }
 
-    private void writeProductToFile(List<Product> productList) {
-        try (ObjectOutputStream writeProductToFile = new ObjectOutputStream(new FileOutputStream(path))) {
-            writeProductToFile.writeObject(productList);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    private void writeProductToFile(List<Product> productList) throws IOException {
+        mapper.writeValue(new File(path), productList);
     }
 }
 
