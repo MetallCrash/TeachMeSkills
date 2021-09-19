@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<group>
+    <name>family</name>
+    <member>
+        <firstname>Homer</firstname>
+        <lastname>Simpson</lastname>
+        <age>36</age>
+        <status>father</status>
+        <birthdate format="MM-dd-yyyy">05-12-1956</birthdate>
+    </member>
+    <member>
+        <firstname>Marge</firstname>
+        <lastname>Simpson</lastname>
+        <age>34</age>
+        <status>mother</status>
+        <birthdate format="MM-dd-yyyy">03-19-1958</birthdate>
+    </member>
+    <member>
+        <firstname>Bart</firstname>
+        <lastname>Simpson</lastname>
+        <age>10</age>
+        <status>son</status>
+        <birthdate format="MM-dd-yyyy">04-01-1980</birthdate>
+    </member>
+    <member>
+        <firstname>Lisa</firstname>
+        <lastname>Simpson</lastname>
+        <age>8</age>
+        <status>daughter</status>
+        <birthdate format="MM-dd-yyyy">05-09-1982</birthdate>
+    </member>
+    <member>
+        <firstname>Maggie</firstname>
+        <lastname>Simpson</lastname>
+        <age>1</age>
+        <status>daughter</status>
+        <birthdate format="MM-dd-yyyy">01-12-1989</birthdate>
+    </member>
+    <member>
+        <firstname>Abraham</firstname>
+        <lastname>Simpson</lastname>
+        <age>83</age>
+        <status>Homer's father</status>
+        <birthdate format="MM-dd-yyyy">05-25-1910</birthdate>
+    </member>
+    <member>
+        <firstname>Mona</firstname>
+        <lastname>Simpson</lastname>
+        <age>dead</age>
+        <status>Homer's mother</status>
+        <birthdate format="MM-dd-yyyy">null</birthdate>
+    </member>
+</group>

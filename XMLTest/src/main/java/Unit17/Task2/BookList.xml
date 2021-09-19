@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bookList>
+    <name>Popular Series</name>
+    <books>
+        <article>1</article>
+        <name>Lord of the Rings</name>
+        <publishingDate>1954-07-29T00:00:00+03:00</publishingDate>
+    </books>
+    <books>
+        <article>2</article>
+        <name>Harry Potter</name>
+        <publishingDate>1997-06-26T00:00:00+03:00</publishingDate>
+    </books>
+    <books>
+        <article>3</article>
+        <name>Star Wars</name>
+        <publishingDate>1977-04-12T00:00:00+03:00</publishingDate>
+    </books>
+</bookList>

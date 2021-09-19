@@ -1,14 +1,25 @@
 package Shop;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Product implements Serializable {
+    @JsonProperty("id")
     private int id;
-    private String name;
-    private int price;
-    private final LocalDateTime subsequence = LocalDateTime.now();
 
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("price")
+    private int price;
+
+    @JsonProperty("dateCreated")
+    private LocalDateTime dateCreated = LocalDateTime.now();
+
+    public Product() {
+    }
 
     public Product(int id, String name, int price) {
         this.id = id;
@@ -40,8 +51,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public LocalDateTime getSubsequence() {
-        return subsequence;
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     @Override
