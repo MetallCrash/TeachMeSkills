@@ -9,17 +9,28 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Shop {
-    private List<Product> productList = new ArrayList<>();
+    private final List<Product> productList = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
     private final String path = "XMLTest/src/main/java/Shop/ProductList.json";
     private final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    private final ProductGenerator productGenerator;
+    private final ProductManager productManager = new ProductManager();
+
+    public Shop() throws IOException {
+        readProductsFromFile();
+        int maxId = productList.stream()
+                .max(Comparator.comparingInt(product -> product.getId()))
+                .map(product -> product.getId())
+                .orElse(0);
+        productGenerator = new ProductGenerator(maxId);
+    }
 
     public void start() throws IOException {
-        readProductsFromFile();
         boolean isStart = true;
         while (isStart) {
             int action = getMainPage();
@@ -33,6 +44,8 @@ public class Shop {
                 displayProductList();
                 editProduct();
             } else if (action == 5) {
+                getProduceConsumePage();
+            } else if (action == 6) {
                 System.out.println("Выход из программы");
                 scanner.close();
                 isStart = false;
@@ -87,10 +100,10 @@ public class Shop {
 
     private int getMainPage() {
         String description = "Выберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
-                "3) Удаление товара\n  4) Редактирование товара\n  5) Выход\n";
+                "3) Удаление товара\n  4) Редактирование товара\n  5) Производство и покупка товаров\n  6) Выход\n";
         System.out.println(description);
         int action = readInt();
-        while (action < 0 || action > 5) {
+        while (action < 0 || action > 6) {
             System.out.println(description);
             action = readInt();
         }
@@ -236,11 +249,62 @@ public class Shop {
     }
 
     private void readProductsFromFile() throws IOException {
-        productList = mapper.readValue(new File(path), new TypeReference<List<Product>>() {});
+        productList.clear();
+        productList.addAll(mapper.readValue(new File(path), new TypeReference<List<Product>>() {
+        }));
     }
 
-    private void writeProductToFile(List<Product> productList) throws IOException {
+
+    private synchronized void writeProductToFile(List<Product> productList) throws IOException {
         mapper.writeValue(new File(path), productList);
+        this.productList.clear();
+        this.productList.addAll(productList);
+    }
+
+    private void getProduceConsumePage() throws IOException {
+        Producer producer = new Producer(new Shop());
+        Consumer consumer = new Consumer(new Shop());
+        new Thread(producer).start();
+        new Thread(consumer).start();
+    }
+
+    public void buyProduct() throws IOException {
+//        while (productManager.getProducts().size() < 1) {
+//            try {
+//                wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        synchronized (productManager) {
+            List<Product> products = productManager.getProducts();
+            if (!products.isEmpty()) {
+                System.out.println("[" + Thread.currentThread().getName() + "] Покупатель купил 1 \"" + products.get(0).getName() + "\" за " + products.get(0).getPrice());
+                products.remove(0); //Рандомный продукт добавить
+                System.out.println("[" + Thread.currentThread().getName() + "] CONSUMER: " + products.stream().map(p -> p.getName()).collect(Collectors.toList()));
+                productManager.updateProducts(products);
+            }
+//            notify();
+        }
+    }
+
+    public void produceProduct() throws IOException {
+//        while (productManager.getProducts().size() > 10) {
+//            try {
+//                wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        synchronized (productManager) {
+            List<Product> products = productManager.getProducts();
+            Product product = productGenerator.generate();
+            System.out.println("[" + Thread.currentThread().getName() + "] Продавец произвел товар \"" + product.getName() + "\" c ценой " + product.getPrice());
+            products.add(product);
+            System.out.println("[" + Thread.currentThread().getName() + "] PRODUCER: " + products.stream().map(p -> p.getName()).collect(Collectors.toList()));
+            productManager.updateProducts(products);
+//            notify();
+        }
     }
 }
 
