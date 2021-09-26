@@ -33,8 +33,7 @@ public class Shop {
                 displayProductList();
                 editProduct();
             } else if (action == 5) {
-                getProduceConsumePage();      //Мейн тред высвечивает меню с кнопкаминад
-                                              //произведенными и купленными товарами
+                getProduceConsumePage();
             } else if (action == 6) {
                 getBuyProductsPage();
             } else if (action == 7) {
@@ -98,7 +97,7 @@ public class Shop {
     }
 
     private int getMainPage() {
-        String description = "Выберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
+        String description = "\nВыберите действие:\n  1) Вывод всех товаров\n  2) Добавление товара\n  " +
                 "3) Удаление товара\n  4) Редактирование товара\n  5) Имитация производства и покупки товаров\n  " +
                 "6) Покупка товаров и История покупок\n  7) Выход\n";
         System.out.println(description);
@@ -253,8 +252,16 @@ public class Shop {
     private void getProduceConsumePage() {
         Producer producer = new Producer(this);
         Consumer consumer = new Consumer(this);
-        new Thread(producer, "thread-producer").start();
-        new Thread(consumer, "thread-consumer").start();
+        Thread threadProducer = new Thread(producer, "thread-producer");
+        Thread threadConsumer = new Thread(consumer, "thread-consumer");
+        threadProducer.start();
+        threadConsumer.start();
+        try {
+            threadProducer.join();
+            threadConsumer.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void buyProduct() throws IOException {
