@@ -15,7 +15,7 @@
 <div>
     <div class="welcome_container">
         <div class="welcome_content">
-            <h1>Хеллоу ма фрэнд ${firstName} ${lastName}</h1>
+            <h1>Hello my friend ${firstName} ${lastName}</h1>
         </div>
         <div class="welcome_img">
             <img src="https://c.tenor.com/w_5Q79dNCh8AAAAi/cat-vibe.gif" width="500" height="500">
