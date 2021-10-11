@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ProductManager {
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/shop_product?" +
-            "allowPublicKeyRetieval=true&useSSL=false&useUnicode=true&serverTimezone=UTC";
+            "allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
